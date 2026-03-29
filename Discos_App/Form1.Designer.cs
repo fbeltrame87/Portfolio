@@ -30,6 +30,7 @@
         {
             this.dgvDiscos = new System.Windows.Forms.DataGridView();
             this.pbxDiscos = new System.Windows.Forms.PictureBox();
+            this.btn1_Agregar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDiscos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDiscos)).BeginInit();
             this.SuspendLayout();
@@ -55,12 +56,24 @@
             this.pbxDiscos.TabIndex = 1;
             this.pbxDiscos.TabStop = false;
             // 
+            // btn1_Agregar
+            // 
+            this.btn1_Agregar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn1_Agregar.Location = new System.Drawing.Point(12, 242);
+            this.btn1_Agregar.Name = "btn1_Agregar";
+            this.btn1_Agregar.Size = new System.Drawing.Size(91, 28);
+            this.btn1_Agregar.TabIndex = 2;
+            this.btn1_Agregar.Text = "Agregar";
+            this.btn1_Agregar.UseVisualStyleBackColor = true;
+            this.btn1_Agregar.Click += new System.EventHandler(this.btn1_Agregar_Click);
+            // 
             // DiscosApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(888, 396);
+            this.Controls.Add(this.btn1_Agregar);
             this.Controls.Add(this.pbxDiscos);
             this.Controls.Add(this.dgvDiscos);
             this.Name = "DiscosApp";
@@ -77,6 +90,7 @@
 
         private System.Windows.Forms.DataGridView dgvDiscos;
         private System.Windows.Forms.PictureBox pbxDiscos;
+        private System.Windows.Forms.Button btn1_Agregar;
     }
 }
 

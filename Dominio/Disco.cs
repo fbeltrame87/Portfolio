@@ -12,6 +12,8 @@ namespace Dominio
 
         public Artista Artista { get; set; }
 
+        public int cantidadCanciones { get; set; }
+
         public string UrlImagenTapa { get; set; }
 
         public Estilo Genero { get; set; }

@@ -52,8 +52,36 @@ namespace Negocio
             {
                 throw ex;
             }
+        }
 
-            
+        public void agregarDisco(Disco nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("insert into DISCOS(Titulo, Artista, CantidadCanciones) values ('" + nuevo.Titulo +"', '" + nuevo.Artista +"', " + nuevo.cantidadCanciones +")");
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificarDisco(Disco modifica)
+        {
+
+        }
+
+        public void quitarDisco(Disco quitar)
+        {
+
         }
     }
 }

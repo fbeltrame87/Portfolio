@@ -51,9 +51,15 @@ namespace Discos_App
 
         private void dgvDiscos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            Form2 Estilos_Disponibles = new Form2();
+            Form_AltaDisco Estilos_Disponibles = new Form_AltaDisco();
 
             Estilos_Disponibles.ShowDialog();
+        }
+
+        private void btn1_Agregar_Click(object sender, EventArgs e)
+        {
+            Form_AltaDisco alta = new Form_AltaDisco();
+            alta.ShowDialog();
         }
     }
 }

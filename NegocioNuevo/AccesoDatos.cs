@@ -44,6 +44,21 @@ namespace Negocio
             }
         }
 
+        public void ejecutarAccion()
+        {
+            comando.Connection = conexion;
+            try
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery(); //Acción "No consulta", sino inserción digamos
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public void cerrarConexion()
         {
             if (lector != null)
