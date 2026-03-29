@@ -51,7 +51,9 @@ namespace Discos_App
 
         private void dgvDiscos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            Form2.InitializeComponent();
+            Form2 Estilos_Disponibles = new Form2();
+
+            Estilos_Disponibles.ShowDialog();
         }
     }
 }
