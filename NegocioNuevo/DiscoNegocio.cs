@@ -12,7 +12,6 @@ namespace Negocio
     {
         //Clase acceso a datos de los discos
         public List<Disco> listar()
-
         {
             List<Disco> lista = new List<Disco>();
             SqlConnection conexion = new SqlConnection();
@@ -24,7 +23,7 @@ namespace Negocio
             {
                 conexion.ConnectionString = "server=.\\SQLEXPRESS; database=DISCOS_DB; integrated security=true";
                 comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "Select Titulo, Artista, UrlImagenTapa, E.Descripcion Genero, T.Descripcion Edicion from DISCOS D, ESTILOS E, TIPOSEDICION T where E.Id = D.IdEstilo AND D.IdTipoEdicion = T.Id";
+                comando.CommandText = "Select Titulo, Artista, CantidadCanciones, UrlImagenTapa, E.Descripcion Genero, T.Descripcion Edicion, D.IdEstilo, D.IdTipoEdicion, D.Id from DISCOS D, ESTILOS E, TIPOSEDICION T where E.Id = D.IdEstilo AND D.IdTipoEdicion = T.Id";
                 comando.Connection = conexion;
 
                 conexion.Open();
@@ -33,13 +32,24 @@ namespace Negocio
                 while (lector.Read())
                 {
                     Disco aux = new Disco();
+                    aux.Id = (int)lector["Id"];
                     aux.Titulo = (string)lector["Titulo"];
                     aux.Artista = new Artista();
                     aux.Artista.Nombre = (string)lector["Artista"];
-                    aux.UrlImagenTapa = (string)lector["UrlImagenTapa"];
+                    aux.cantidadCanciones = (int)lector["CantidadCanciones"];
+                    //Validación de columna NULL, más que nada si es Not NULL en DB
+                    //Op. a)
+                    //if(!(lector.IsDBNull(lector.GetOrdinal("UrlImagenTapa"))))
+                    //    aux.UrlImagenTapa = (string)lector["UrlImagenTapa"];
+                    //Op. b)
+                    if (!(lector["UrlImagenTapa"] is DBNull))
+                        aux.UrlImagenTapa = (string)lector["UrlImagenTapa"];
+
                     aux.Genero = new Estilo();
+                    aux.Genero.Id = (int)lector["IdEstilo"];
                     aux.Genero.Descripcion = (string)lector["Genero"];
                     aux.Tipo = new Edicion();
+                    aux.Tipo.Id = (int)lector["IdTipoEdicion"];
                     aux.Tipo.Descripcion = (string)lector["Edicion"];
 
                     lista.Add(aux);
@@ -60,7 +70,11 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("insert into DISCOS(Titulo, Artista, CantidadCanciones) values ('" + nuevo.Titulo +"', '" + nuevo.Artista +"', " + nuevo.cantidadCanciones +")");
+                //Dos maneras de agregar values, una concatenando y otra agregando parametros
+                datos.setearConsulta("insert into DISCOS(Titulo, Artista, CantidadCanciones, EnStock, IdTipoEdicion, IdEstilo, UrlImagenTapa) values ('" + nuevo.Titulo +"', '" + nuevo.Artista +"', " + nuevo.cantidadCanciones +", 1, @idTipoEdicion, @idEstilo, @urlImagenTapa)");
+                datos.setearParametro("@idTipoEdicion", nuevo.Tipo.Id);
+                datos.setearParametro("@idEstilo", nuevo.Genero.Id);
+                datos.setearParametro("@urlImagenTapa", nuevo.UrlImagenTapa);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -76,7 +90,29 @@ namespace Negocio
 
         public void modificarDisco(Disco modifica)
         {
+            AccesoDatos datos = new AccesoDatos(); //Puede ser atributo privado de clase o agregado en constructor 
 
+            try
+            {
+                datos.setearConsulta("update DISCOS set Titulo = @titulo, CantidadCanciones = @cantidadCanciones, UrlImagenTapa = @img, IdEstilo = @idGenero, IdTipoEdicion = @idTipo, Artista = @artista where Id = @id");
+                datos.setearParametro("@titulo", modifica.Titulo);
+                datos.setearParametro("@cantidadCanciones", modifica.cantidadCanciones);
+                datos.setearParametro("@img", modifica.UrlImagenTapa);
+                datos.setearParametro("@idGenero", modifica.Genero.Id);
+                datos.setearParametro("@idTipo", modifica.Tipo.Id);
+                datos.setearParametro("@artista", modifica.Artista.Nombre);
+                datos.setearParametro("@id", modifica.Id);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
         public void quitarDisco(Disco quitar)

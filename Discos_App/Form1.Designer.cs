@@ -31,6 +31,7 @@
             this.dgvDiscos = new System.Windows.Forms.DataGridView();
             this.pbxDiscos = new System.Windows.Forms.PictureBox();
             this.btn1_Agregar = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDiscos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDiscos)).BeginInit();
             this.SuspendLayout();
@@ -40,16 +41,20 @@
             this.dgvDiscos.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.dgvDiscos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvDiscos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDiscos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvDiscos.Location = new System.Drawing.Point(12, 12);
+            this.dgvDiscos.MultiSelect = false;
             this.dgvDiscos.Name = "dgvDiscos";
-            this.dgvDiscos.Size = new System.Drawing.Size(480, 223);
+            this.dgvDiscos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDiscos.Size = new System.Drawing.Size(535, 338);
             this.dgvDiscos.TabIndex = 0;
             this.dgvDiscos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDiscos_CellDoubleClick);
             this.dgvDiscos.SelectionChanged += new System.EventHandler(this.dgvDiscos_SelectedChanged);
             // 
             // pbxDiscos
             // 
-            this.pbxDiscos.Location = new System.Drawing.Point(498, 12);
+            this.pbxDiscos.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.pbxDiscos.Location = new System.Drawing.Point(553, 12);
             this.pbxDiscos.Name = "pbxDiscos";
             this.pbxDiscos.Size = new System.Drawing.Size(378, 378);
             this.pbxDiscos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -59,7 +64,7 @@
             // btn1_Agregar
             // 
             this.btn1_Agregar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn1_Agregar.Location = new System.Drawing.Point(12, 242);
+            this.btn1_Agregar.Location = new System.Drawing.Point(12, 356);
             this.btn1_Agregar.Name = "btn1_Agregar";
             this.btn1_Agregar.Size = new System.Drawing.Size(91, 28);
             this.btn1_Agregar.TabIndex = 2;
@@ -67,12 +72,24 @@
             this.btn1_Agregar.UseVisualStyleBackColor = true;
             this.btn1_Agregar.Click += new System.EventHandler(this.btn1_Agregar_Click);
             // 
+            // btnModificar
+            // 
+            this.btnModificar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnModificar.Location = new System.Drawing.Point(109, 356);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(91, 28);
+            this.btnModificar.TabIndex = 3;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
+            // 
             // DiscosApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(888, 396);
+            this.ClientSize = new System.Drawing.Size(943, 396);
+            this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btn1_Agregar);
             this.Controls.Add(this.pbxDiscos);
             this.Controls.Add(this.dgvDiscos);
@@ -91,6 +108,7 @@
         private System.Windows.Forms.DataGridView dgvDiscos;
         private System.Windows.Forms.PictureBox pbxDiscos;
         private System.Windows.Forms.Button btn1_Agregar;
+        private System.Windows.Forms.Button btnModificar;
     }
 }
 

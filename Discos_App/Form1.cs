@@ -23,17 +23,30 @@ namespace Discos_App
 
         private void DiscosApp_Load(object sender, EventArgs e)
         {
-            DiscoNegocio negocio = new DiscoNegocio();
-            listaDisco = negocio.listar();
-            dgvDiscos.DataSource = listaDisco;
-            dgvDiscos.Columns["UrlImagenTapa"].Visible = false;
-            cargarImagen(listaDisco[0].UrlImagenTapa);
+            cargar();
         }
 
         private void dgvDiscos_SelectedChanged(object sender, EventArgs e)
         {
             Disco seleccionado = (Disco)dgvDiscos.CurrentRow.DataBoundItem;
             cargarImagen(seleccionado.UrlImagenTapa);
+        }
+
+        private void cargar()
+        {
+            DiscoNegocio negocio = new DiscoNegocio();
+            try
+            {
+                listaDisco = negocio.listar();
+                dgvDiscos.DataSource = listaDisco;
+                dgvDiscos.Columns["UrlImagenTapa"].Visible = false;
+                dgvDiscos.Columns["Id"].Visible = false;
+                cargarImagen(listaDisco[0].UrlImagenTapa);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void cargarImagen(string imagen)
@@ -60,6 +73,16 @@ namespace Discos_App
         {
             Form_AltaDisco alta = new Form_AltaDisco();
             alta.ShowDialog();
+            cargar();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            Disco seleccionado;
+            seleccionado = (Disco)dgvDiscos.CurrentRow.DataBoundItem; //Disco seleccionado en la línea de grilla
+            Form_AltaDisco modificar = new Form_AltaDisco(seleccionado);
+            modificar.ShowDialog();
+            cargar();
         }
     }
 }
