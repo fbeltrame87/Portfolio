@@ -23,7 +23,7 @@ namespace Negocio
             {
                 conexion.ConnectionString = "server=.\\SQLEXPRESS; database=DISCOS_DB; integrated security=true";
                 comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "Select Titulo, Artista, CantidadCanciones, UrlImagenTapa, E.Descripcion Genero, T.Descripcion Edicion, D.IdEstilo, D.IdTipoEdicion, D.Id from DISCOS D, ESTILOS E, TIPOSEDICION T where E.Id = D.IdEstilo AND D.IdTipoEdicion = T.Id";
+                comando.CommandText = "Select Titulo, Artista, CantidadCanciones, UrlImagenTapa, E.Descripcion Genero, T.Descripcion Edicion, D.IdEstilo, D.IdTipoEdicion, D.Id from DISCOS D, ESTILOS E, TIPOSEDICION T where E.Id = D.IdEstilo AND D.IdTipoEdicion = T.Id AND D.EnStock = 1";
                 comando.Connection = conexion;
 
                 conexion.Open();
@@ -71,7 +71,7 @@ namespace Negocio
             try
             {
                 //Dos maneras de agregar values, una concatenando y otra agregando parametros
-                datos.setearConsulta("insert into DISCOS(Titulo, Artista, CantidadCanciones, EnStock, IdTipoEdicion, IdEstilo, UrlImagenTapa) values ('" + nuevo.Titulo +"', '" + nuevo.Artista +"', " + nuevo.cantidadCanciones +", 1, @idTipoEdicion, @idEstilo, @urlImagenTapa)");
+                datos.setearConsulta("insert into DISCOS(Titulo, Artista, CantidadCanciones, EnStock, IdTipoEdicion, IdEstilo, UrlImagenTapa) values ('" + nuevo.Titulo +"', '" + nuevo.Artista.Nombre +"', " + nuevo.cantidadCanciones +", 1, @idTipoEdicion, @idEstilo, @urlImagenTapa)");
                 datos.setearParametro("@idTipoEdicion", nuevo.Tipo.Id);
                 datos.setearParametro("@idEstilo", nuevo.Genero.Id);
                 datos.setearParametro("@urlImagenTapa", nuevo.UrlImagenTapa);
@@ -79,7 +79,6 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -88,9 +87,9 @@ namespace Negocio
             }
         }
 
-        public void modificarDisco(Disco modifica)
+        public void modificarDisco(Disco modifica) 
         {
-            AccesoDatos datos = new AccesoDatos(); //Puede ser atributo privado de clase o agregado en constructor 
+            AccesoDatos datos = new AccesoDatos(); //Puede ser atributo privado de clase DiscoNegocio o agregado en constructor 
 
             try
             {
@@ -115,9 +114,57 @@ namespace Negocio
             }
         }
 
-        public void quitarDisco(Disco quitar)
+        public List<Disco> filtrar(string campo, string criterio, string filtro)
         {
+            List<Disco> lista = new List<Disco>();
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                string consulta = "Select Titulo, Artista, CantidadCanciones, UrlImagenTapa, E.Descripcion Genero, T.Descripcion Edicion, D.IdEstilo, D.IdTipoEdicion, D.Id from DISCOS D, ESTILOS E, TIPOSEDICION T where E.Id = D.IdEstilo AND D.IdTipoEdicion = T.Id AND D.EnStock = 1 AND ";
+                switch (campo)
+                {
+                    default: //ACA
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void quitarDisco(int Id)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setearConsulta("delete from DISCOS where Id = @id");
+                datos.setearParametro("@id", Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public void quitarDisco_Logico(int Id)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setearConsulta("update DISCOS set EnStock = 0 where id = @id");
+                datos.setearParametro("@id", Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

@@ -238,6 +238,38 @@ namespace Discos_App
 
         }
 
+        private void Form_AltaDisco_Load(object sender, EventArgs e)
+        {
+            EstiloNegocio estiloNegocio = new EstiloNegocio();
+            EdicionNegocio edicionNegocio = new EdicionNegocio();
+
+            try
+            {
+                cBoxGenero.DataSource = estiloNegocio.listar();
+                cBoxGenero.ValueMember = "Id";
+                cBoxGenero.DisplayMember = "Descripcion";
+                cBoxEdicion.DataSource = edicionNegocio.listar();
+                cBoxEdicion.ValueMember = "Id";
+                cBoxEdicion.DisplayMember = "Descripcion";
+
+                //Validación de si es inserción o modificación
+                if (disco != null)
+                {
+                    tbxTitulo.Text = disco.Titulo;
+                    tbxArtista.Text = disco.Artista.Nombre;
+                    tbxCantidadCanciones.Text = disco.cantidadCanciones.ToString();
+                    tBoxUrlImagen.Text = disco.UrlImagenTapa;
+                    cargarImagen(disco.UrlImagenTapa);
+                    cBoxGenero.SelectedValue = disco.Genero.Id;
+                    cBoxEdicion.SelectedValue = disco.Tipo.Id;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
@@ -245,7 +277,6 @@ namespace Discos_App
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            Disco nuevoDisco = new Disco();
             DiscoNegocio negocio = new DiscoNegocio();
 
             try
@@ -268,43 +299,11 @@ namespace Discos_App
                 }
                 else
                 {
-                    negocio.agregarDisco(nuevoDisco);
+                    negocio.agregarDisco(disco);
                     MessageBox.Show("Agregado exitoso.");
                 }
 
                 Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void Form_AltaDisco_Load(object sender, EventArgs e)
-        {
-            EstiloNegocio estiloNegocio = new EstiloNegocio();
-            EdicionNegocio edicionNegocio = new EdicionNegocio();
-
-            try
-            {
-                cBoxGenero.DataSource = estiloNegocio.listar();
-                cBoxGenero.ValueMember = "Id";
-                cBoxGenero.DisplayMember = "Descripcion";
-                cBoxEdicion.DataSource = edicionNegocio.listar();
-                cBoxEdicion.ValueMember = "Id";
-                cBoxEdicion.DisplayMember = "Descripcion";
-
-                //Validación de si es inserción o modificación
-                if(disco != null)
-                {
-                    tbxTitulo.Text = disco.Titulo;
-                    tbxArtista.Text = disco.Artista.Nombre;
-                    tbxCantidadCanciones.Text = disco.cantidadCanciones.ToString();
-                    tBoxUrlImagen.Text = disco.UrlImagenTapa;
-                    cargarImagen(disco.UrlImagenTapa);
-                    cBoxGenero.SelectedValue = disco.Genero.Id;
-                    cBoxEdicion.SelectedValue = disco.Tipo.Id;
-                }
             }
             catch (Exception ex)
             {
