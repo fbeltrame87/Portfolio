@@ -122,9 +122,81 @@ namespace Negocio
             try
             {
                 string consulta = "Select Titulo, Artista, CantidadCanciones, UrlImagenTapa, E.Descripcion Genero, T.Descripcion Edicion, D.IdEstilo, D.IdTipoEdicion, D.Id from DISCOS D, ESTILOS E, TIPOSEDICION T where E.Id = D.IdEstilo AND D.IdTipoEdicion = T.Id AND D.EnStock = 1 AND ";
+
                 switch (campo)
                 {
-                    default: //ACA
+                    case "CantidadCanciones":
+                        switch (criterio)
+                        {
+                            case "Menor a":
+                                consulta += "CantidadCanciones < " + filtro;
+                                break;
+                            case "Mayor a":
+                                consulta += "CantidadCanciones > " + filtro;
+                                break;
+                            default:
+                                consulta += "CantidadCanciones = " + filtro;
+                                break;
+                        }
+                        break;
+
+                    case "Título":
+                        switch (criterio)
+                        {
+                            case "Comienza con":
+                                consulta += "Titulo like '" + filtro + "%'";
+                                break;
+                            case "Termina con":
+                                consulta += "Titulo like '%" + filtro + "'";
+                                break;
+                            default:
+                                consulta += "Titulo like '%" + filtro + "%'";
+                                break;
+                        }
+                        break;
+
+                    case "Artista":
+                        switch (criterio)
+                        {
+                            case "Comienza con":
+                                consulta += "Artista like '" + filtro + "%'";
+                                break;
+                            case "Termina con":
+                                consulta += "Artista like '%" + filtro + "'";
+                                break;
+                            default:
+                                consulta += "Artista like '%" + filtro + "%'";
+                                break;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarAccion();
+
+                while (datos.Lector.Read())
+                {
+                    Disco aux = new Disco();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Titulo = (string)datos.Lector["Titulo"];
+                    aux.Artista = new Artista();
+                    aux.Artista.Nombre = (string)datos.Lector["Artista"];
+                    aux.cantidadCanciones = (int)datos.Lector["CantidadCanciones"];
+                   
+                    if (!(datos.Lector["UrlImagenTapa"] is DBNull))
+                        aux.UrlImagenTapa = (string)datos.Lector["UrlImagenTapa"];
+
+                    aux.Genero = new Estilo();
+                    aux.Genero.Id = (int)datos.Lector["IdEstilo"];
+                    aux.Genero.Descripcion = (string)datos.Lector["Genero"];
+                    aux.Tipo = new Edicion();
+                    aux.Tipo.Id = (int)datos.Lector["IdTipoEdicion"];
+                    aux.Tipo.Descripcion = (string)datos.Lector["Edicion"];
+
+                    lista.Add(aux);
                 }
 
                 return lista;
@@ -132,6 +204,10 @@ namespace Negocio
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
 

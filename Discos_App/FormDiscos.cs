@@ -188,6 +188,13 @@ namespace Discos_App
                 cboBoxCriterio.Items.Add("Mayor a");
                 cboBoxCriterio.Items.Add("Igual a");
             }
+            else if(opcion == "Artista")
+            {
+                cboBoxCriterio.Items.Clear();
+                cboBoxCriterio.Items.Add("Comienza con");
+                cboBoxCriterio.Items.Add("Termina con");
+                cboBoxCriterio.Items.Add("Contiene");
+            }
             else
             {
                 cboBoxCriterio.Items.Clear();
