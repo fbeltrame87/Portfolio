@@ -35,8 +35,13 @@ namespace Negocio
                     aux.Id = (int)lector["Id"];
                     aux.Titulo = (string)lector["Titulo"];
                     aux.Artista = new Artista();
+
+                    if (!(lector["Artista"] is DBNull))
+                        aux.Artista.Nombre = (string)lector["Artista"];
+
                     aux.Artista.Nombre = (string)lector["Artista"];
                     aux.cantidadCanciones = (int)lector["CantidadCanciones"];
+
                     //Validación de columna NULL, más que nada si es Not NULL en DB
                     //Op. a)
                     //if(!(lector.IsDBNull(lector.GetOrdinal("UrlImagenTapa"))))
@@ -55,12 +60,16 @@ namespace Negocio
                     lista.Add(aux);
                 }
 
-                conexion.Close();
+                lector.Close();
                 return lista;
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                conexion.Close();
             }
         }
 
@@ -134,8 +143,10 @@ namespace Negocio
                             case "Mayor a":
                                 consulta += "CantidadCanciones > " + filtro;
                                 break;
-                            default:
+                            case "Igual a":
                                 consulta += "CantidadCanciones = " + filtro;
+                                break;
+                            default:
                                 break;
                         }
                         break;
@@ -149,8 +160,10 @@ namespace Negocio
                             case "Termina con":
                                 consulta += "Titulo like '%" + filtro + "'";
                                 break;
-                            default:
+                            case "Contiene":
                                 consulta += "Titulo like '%" + filtro + "%'";
+                                break;
+                            default:
                                 break;
                         }
                         break;
@@ -164,8 +177,10 @@ namespace Negocio
                             case "Termina con":
                                 consulta += "Artista like '%" + filtro + "'";
                                 break;
-                            default:
+                            case "Contiene":
                                 consulta += "Artista like '%" + filtro + "%'";
+                                break;
+                            default:
                                 break;
                         }
                         break;
@@ -183,6 +198,10 @@ namespace Negocio
                     aux.Id = (int)datos.Lector["Id"];
                     aux.Titulo = (string)datos.Lector["Titulo"];
                     aux.Artista = new Artista();
+
+                    if (!(datos.Lector["Artista"] is DBNull))
+                        aux.Artista.Nombre = (string)datos.Lector["Artista"];
+
                     aux.Artista.Nombre = (string)datos.Lector["Artista"];
                     aux.cantidadCanciones = (int)datos.Lector["CantidadCanciones"];
                    
