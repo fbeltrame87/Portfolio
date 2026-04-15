@@ -41,7 +41,6 @@ namespace Negocio
 
                     aux.Artista.Nombre = (string)lector["Artista"];
                     aux.cantidadCanciones = (int)lector["CantidadCanciones"];
-
                     //Validación de columna NULL, más que nada si es Not NULL en DB
                     //Op. a)
                     //if(!(lector.IsDBNull(lector.GetOrdinal("UrlImagenTapa"))))
