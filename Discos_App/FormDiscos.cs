@@ -89,11 +89,18 @@ namespace Discos_App
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Disco seleccionado;
-            seleccionado = (Disco)dgvDiscos.CurrentRow.DataBoundItem; //Disco seleccionado en la línea de grilla
-            Form_AltaDisco modificar = new Form_AltaDisco(seleccionado);
-            modificar.ShowDialog();
-            cargar();
+            try
+            {
+                Disco seleccionado;
+                seleccionado = (Disco)dgvDiscos.CurrentRow.DataBoundItem; //Disco seleccionado en la línea de grilla
+                Form_AltaDisco modificar = new Form_AltaDisco(seleccionado);
+                modificar.ShowDialog();
+                cargar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void btnQuitarFisico_Click(object sender, EventArgs e)
@@ -138,11 +145,53 @@ namespace Discos_App
             //Desarrollar activación de Disco a "EnStock"
         }
 
+        private bool validarFiltro()
+        {
+            if(cboBoxCampo.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor, seleccione el campo para filtrar.");
+                return true;
+            }
+            if(cboBoxCriterio.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor, seleccione el criterio para filtrar.");
+                return true;
+            }
+
+            if (cboBoxCampo.SelectedItem.ToString() == "CantidadCanciones")
+            {
+                if (!(soloNumeros(txtBoxFiltroAvanzado.Text)))
+                {
+                    MessageBox.Show("Solo números para filtrar por un campo numerico.");
+                    return true;
+                }
+                if (txtBoxFiltroAvanzado.Text == "")
+                {
+                    MessageBox.Show("Ingrese un número para este filtro.");
+                }
+            }
+
+            return false;
+        }
+
+        private bool soloNumeros(string cadena)
+        {
+            foreach (char caracter in cadena)
+            {
+                if (!(char.IsNumber(caracter)))
+                    return false;
+            }
+            return true;
+        }
+
         private void btnFiltro_Click(object sender, EventArgs e)
         {
             DiscoNegocio negocio = new DiscoNegocio();
             try
             {
+                if (validarFiltro())
+                    return; //Return en un método void genera que no se ejecute el método más abajo.
+
                 string campo = cboBoxCampo.SelectedItem.ToString();
                 string criterio = cboBoxCriterio.SelectedItem.ToString();
                 string filtro = txtBoxFiltroAvanzado.Text;

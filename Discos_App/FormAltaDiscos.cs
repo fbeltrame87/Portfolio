@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
 using Negocio;
+using System.IO;
+using System.Configuration;
 
 namespace Discos_App
 {
     public partial class Form_AltaDisco : Form
     {
         private Disco disco = null; //Disco que arranca nulo de origen y que luego carga con el disco a manipular
+        private Label label1;
+        private OpenFileDialog archivo = null; // FileDialog nulo para agregar archivo imagen desde url o local luego
 
         public Form_AltaDisco()
         {
@@ -36,9 +40,10 @@ namespace Discos_App
         private ComboBox cBoxEdicion;
         private Label lblGenero;
         private Label lblEdicion;
-        private TextBox tBoxUrlImagen;
+        private TextBox txtBoxUrlImagen;
         private Label lblUrlImagen;
         private PictureBox pBoxDisco;
+        private Button btnAgregarImagen;
         private Button btnCancelar;
 
         private void InitializeComponent()
@@ -55,9 +60,11 @@ namespace Discos_App
             this.cBoxEdicion = new System.Windows.Forms.ComboBox();
             this.lblGenero = new System.Windows.Forms.Label();
             this.lblEdicion = new System.Windows.Forms.Label();
-            this.tBoxUrlImagen = new System.Windows.Forms.TextBox();
+            this.txtBoxUrlImagen = new System.Windows.Forms.TextBox();
             this.lblUrlImagen = new System.Windows.Forms.Label();
             this.pBoxDisco = new System.Windows.Forms.PictureBox();
+            this.btnAgregarImagen = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxDisco)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,27 +73,27 @@ namespace Discos_App
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Location = new System.Drawing.Point(96, 27);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(33, 13);
+            this.lblTitulo.Size = new System.Drawing.Size(37, 13);
             this.lblTitulo.TabIndex = 0;
-            this.lblTitulo.Text = "Titulo";
+            this.lblTitulo.Text = "Titulo*";
             // 
             // lblArtista
             // 
             this.lblArtista.AutoSize = true;
             this.lblArtista.Location = new System.Drawing.Point(93, 53);
             this.lblArtista.Name = "lblArtista";
-            this.lblArtista.Size = new System.Drawing.Size(36, 13);
+            this.lblArtista.Size = new System.Drawing.Size(40, 13);
             this.lblArtista.TabIndex = 1;
-            this.lblArtista.Text = "Artista";
+            this.lblArtista.Text = "Artista*";
             // 
             // lblCantidadCanciones
             // 
             this.lblCantidadCanciones.AutoSize = true;
             this.lblCantidadCanciones.Location = new System.Drawing.Point(12, 79);
             this.lblCantidadCanciones.Name = "lblCantidadCanciones";
-            this.lblCantidadCanciones.Size = new System.Drawing.Size(117, 13);
+            this.lblCantidadCanciones.Size = new System.Drawing.Size(121, 13);
             this.lblCantidadCanciones.TabIndex = 2;
-            this.lblCantidadCanciones.Text = "Cantidad de Canciones";
+            this.lblCantidadCanciones.Text = "Cantidad de Canciones*";
             // 
             // tbxTitulo
             // 
@@ -164,28 +171,28 @@ namespace Discos_App
             this.lblGenero.AutoSize = true;
             this.lblGenero.Location = new System.Drawing.Point(87, 131);
             this.lblGenero.Name = "lblGenero";
-            this.lblGenero.Size = new System.Drawing.Size(42, 13);
+            this.lblGenero.Size = new System.Drawing.Size(46, 13);
             this.lblGenero.TabIndex = 10;
-            this.lblGenero.Text = "Género";
+            this.lblGenero.Text = "Género*";
             // 
             // lblEdicion
             // 
             this.lblEdicion.AutoSize = true;
             this.lblEdicion.Location = new System.Drawing.Point(87, 159);
             this.lblEdicion.Name = "lblEdicion";
-            this.lblEdicion.Size = new System.Drawing.Size(42, 13);
+            this.lblEdicion.Size = new System.Drawing.Size(46, 13);
             this.lblEdicion.TabIndex = 11;
-            this.lblEdicion.Text = "Edición";
+            this.lblEdicion.Text = "Edición*";
             // 
-            // tBoxUrlImagen
+            // txtBoxUrlImagen
             // 
-            this.tBoxUrlImagen.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtBoxUrlImagen.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.tBoxUrlImagen.Location = new System.Drawing.Point(135, 102);
-            this.tBoxUrlImagen.Name = "tBoxUrlImagen";
-            this.tBoxUrlImagen.Size = new System.Drawing.Size(187, 20);
-            this.tBoxUrlImagen.TabIndex = 3;
-            this.tBoxUrlImagen.Leave += new System.EventHandler(this.tBoxUrlImagen_Leave);
+            this.txtBoxUrlImagen.Location = new System.Drawing.Point(135, 102);
+            this.txtBoxUrlImagen.Name = "txtBoxUrlImagen";
+            this.txtBoxUrlImagen.Size = new System.Drawing.Size(187, 20);
+            this.txtBoxUrlImagen.TabIndex = 3;
+            this.txtBoxUrlImagen.Leave += new System.EventHandler(this.tBoxUrlImagen_Leave);
             // 
             // lblUrlImagen
             // 
@@ -202,20 +209,44 @@ namespace Discos_App
             // pBoxDisco
             // 
             this.pBoxDisco.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pBoxDisco.Location = new System.Drawing.Point(328, 24);
+            this.pBoxDisco.Location = new System.Drawing.Point(354, 24);
             this.pBoxDisco.Name = "pBoxDisco";
             this.pBoxDisco.Size = new System.Drawing.Size(211, 211);
             this.pBoxDisco.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pBoxDisco.TabIndex = 14;
             this.pBoxDisco.TabStop = false;
             // 
+            // btnAgregarImagen
+            // 
+            this.btnAgregarImagen.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAgregarImagen.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnAgregarImagen.Location = new System.Drawing.Point(328, 102);
+            this.btnAgregarImagen.Name = "btnAgregarImagen";
+            this.btnAgregarImagen.Size = new System.Drawing.Size(20, 20);
+            this.btnAgregarImagen.TabIndex = 15;
+            this.btnAgregarImagen.Text = "+";
+            this.btnAgregarImagen.UseVisualStyleBackColor = true;
+            this.btnAgregarImagen.Click += new System.EventHandler(this.btnAgregarImagen_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label1.Location = new System.Drawing.Point(135, 184);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(125, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "( * = campos obligatorios)";
+            // 
             // Form_AltaDisco
             // 
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ClientSize = new System.Drawing.Size(544, 250);
+            this.ClientSize = new System.Drawing.Size(575, 250);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnAgregarImagen);
             this.Controls.Add(this.pBoxDisco);
             this.Controls.Add(this.lblUrlImagen);
-            this.Controls.Add(this.tBoxUrlImagen);
+            this.Controls.Add(this.txtBoxUrlImagen);
             this.Controls.Add(this.lblEdicion);
             this.Controls.Add(this.lblGenero);
             this.Controls.Add(this.cBoxEdicion);
@@ -258,7 +289,7 @@ namespace Discos_App
                     tbxTitulo.Text = disco.Titulo;
                     tbxArtista.Text = disco.Artista.Nombre;
                     tbxCantidadCanciones.Text = disco.cantidadCanciones.ToString();
-                    tBoxUrlImagen.Text = disco.UrlImagenTapa;
+                    txtBoxUrlImagen.Text = disco.UrlImagenTapa;
                     cargarImagen(disco.UrlImagenTapa);
                     cBoxGenero.SelectedValue = disco.Genero.Id;
                     cBoxEdicion.SelectedValue = disco.Tipo.Id;
@@ -288,7 +319,7 @@ namespace Discos_App
                 disco.Artista = new Artista();
                 disco.Artista.Nombre = tbxArtista.Text;
                 disco.cantidadCanciones = int.Parse(tbxCantidadCanciones.Text);
-                disco.UrlImagenTapa = tBoxUrlImagen.Text;
+                disco.UrlImagenTapa = txtBoxUrlImagen.Text;
                 disco.Genero = (Estilo)cBoxGenero.SelectedItem;
                 disco.Tipo = (Edicion)cBoxEdicion.SelectedItem;
 
@@ -303,6 +334,10 @@ namespace Discos_App
                     MessageBox.Show("Agregado exitoso.");
                 }
 
+                //Guardo imagen si la levantó localmente
+                if(archivo != null && !(txtBoxUrlImagen.Text.Contains("http")))
+                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+
                 Close();
             }
             catch (Exception ex)
@@ -313,7 +348,7 @@ namespace Discos_App
 
         private void tBoxUrlImagen_Leave(object sender, EventArgs e)
         {
-            cargarImagen(tBoxUrlImagen.Text);
+            cargarImagen(txtBoxUrlImagen.Text);
         }
 
         private void cargarImagen(string imagen)
@@ -328,6 +363,21 @@ namespace Discos_App
                 pBoxDisco.Load("https://mynoota.com/_next/image?url=%2F_static%2Fimages%2F__default.png&w=640&q=75");
             }
 
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            archivo = new OpenFileDialog();
+            archivo.Filter = "jpg|*.jpg|png|*.png";
+            if(archivo.ShowDialog() == DialogResult.OK)
+            {
+                //carga de imagen en form
+                txtBoxUrlImagen.Text = archivo.FileName;
+                cargarImagen(archivo.FileName);
+
+                //guardo la imagen en carpeta hecha para la app
+                //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+            }
         }
     }
 }

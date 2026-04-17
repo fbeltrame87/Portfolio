@@ -189,7 +189,7 @@ namespace Negocio
                 }
 
                 datos.setearConsulta(consulta);
-                datos.ejecutarAccion();
+                datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
