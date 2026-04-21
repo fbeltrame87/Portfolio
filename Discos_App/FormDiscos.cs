@@ -58,6 +58,7 @@ namespace Discos_App
         {
             dgvDiscos.Columns["UrlImagenTapa"].Visible = false;
             dgvDiscos.Columns["Id"].Visible = false;
+            dgvDiscos.Columns["EnStock"].Visible = false;
         } 
 
         private void cargarImagen(string imagen)
@@ -138,11 +139,6 @@ namespace Discos_App
             {
                 MessageBox.Show(ex.ToString());
             }
-        }
-
-        private void btnActivar_Click(object sender, EventArgs e)
-        {
-            //Desarrollar activación de Disco a "EnStock"
         }
 
         private bool validarFiltro()
@@ -251,6 +247,13 @@ namespace Discos_App
                 cboBoxCriterio.Items.Add("Termina con");
                 cboBoxCriterio.Items.Add("Contiene");
             }
+        }
+
+        private void btnTraerFaltante_Click(object sender, EventArgs e)
+        {
+            FormStockearDiscos stockear = new FormStockearDiscos();
+            stockear.ShowDialog();
+            cargar();
         }
     }
 }

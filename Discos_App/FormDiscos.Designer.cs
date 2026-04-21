@@ -34,7 +34,6 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnQuitarFisico = new System.Windows.Forms.Button();
             this.btnQuitarLogico = new System.Windows.Forms.Button();
-            this.btnStockear = new System.Windows.Forms.Button();
             this.lblFiltro = new System.Windows.Forms.Label();
             this.txtBoxFiltro = new System.Windows.Forms.TextBox();
             this.btnFiltro = new System.Windows.Forms.Button();
@@ -44,6 +43,7 @@
             this.cboBoxCriterio = new System.Windows.Forms.ComboBox();
             this.lblFiltroAvanzado = new System.Windows.Forms.Label();
             this.txtBoxFiltroAvanzado = new System.Windows.Forms.TextBox();
+            this.btnTraerFaltante = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDiscos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxDiscos)).BeginInit();
             this.SuspendLayout();
@@ -116,17 +116,6 @@
             this.btnQuitarLogico.Text = "Quitar Lógico";
             this.btnQuitarLogico.UseVisualStyleBackColor = true;
             this.btnQuitarLogico.Click += new System.EventHandler(this.btnQuitarLogico_Click);
-            // 
-            // btnStockear
-            // 
-            this.btnStockear.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnStockear.Location = new System.Drawing.Point(400, 380);
-            this.btnStockear.Name = "btnStockear";
-            this.btnStockear.Size = new System.Drawing.Size(91, 28);
-            this.btnStockear.TabIndex = 6;
-            this.btnStockear.Text = "Stockear Disco";
-            this.btnStockear.UseVisualStyleBackColor = true;
-            this.btnStockear.Click += new System.EventHandler(this.btnActivar_Click);
             // 
             // lblFiltro
             // 
@@ -208,12 +197,24 @@
             this.txtBoxFiltroAvanzado.Size = new System.Drawing.Size(121, 20);
             this.txtBoxFiltroAvanzado.TabIndex = 15;
             // 
+            // btnTraerFaltante
+            // 
+            this.btnTraerFaltante.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTraerFaltante.Location = new System.Drawing.Point(479, 380);
+            this.btnTraerFaltante.Name = "btnTraerFaltante";
+            this.btnTraerFaltante.Size = new System.Drawing.Size(91, 28);
+            this.btnTraerFaltante.TabIndex = 16;
+            this.btnTraerFaltante.Text = "Traer Faltante";
+            this.btnTraerFaltante.UseVisualStyleBackColor = true;
+            this.btnTraerFaltante.Click += new System.EventHandler(this.btnTraerFaltante_Click);
+            // 
             // DiscosApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(966, 474);
+            this.Controls.Add(this.btnTraerFaltante);
             this.Controls.Add(this.txtBoxFiltroAvanzado);
             this.Controls.Add(this.lblFiltroAvanzado);
             this.Controls.Add(this.cboBoxCriterio);
@@ -223,7 +224,6 @@
             this.Controls.Add(this.btnFiltro);
             this.Controls.Add(this.txtBoxFiltro);
             this.Controls.Add(this.lblFiltro);
-            this.Controls.Add(this.btnStockear);
             this.Controls.Add(this.btnQuitarLogico);
             this.Controls.Add(this.btnQuitarFisico);
             this.Controls.Add(this.btnModificar);
@@ -249,7 +249,6 @@
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnQuitarFisico;
         private System.Windows.Forms.Button btnQuitarLogico;
-        private System.Windows.Forms.Button btnStockear;
         private System.Windows.Forms.Label lblFiltro;
         private System.Windows.Forms.TextBox txtBoxFiltro;
         private System.Windows.Forms.Button btnFiltro;
@@ -259,6 +258,7 @@
         private System.Windows.Forms.ComboBox cboBoxCriterio;
         private System.Windows.Forms.Label lblFiltroAvanzado;
         private System.Windows.Forms.TextBox txtBoxFiltroAvanzado;
+        private System.Windows.Forms.Button btnTraerFaltante;
     }
 }
 

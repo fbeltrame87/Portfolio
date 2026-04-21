@@ -10,7 +10,7 @@ namespace Negocio
 { 
     public class DiscoNegocio
     {
-        //Clase acceso a datos de los discos
+        //Clase acceso a datos de los discos anterior a clase AccesoDatos
         public List<Disco> listar()
         {
             List<Disco> lista = new List<Disco>();
@@ -72,6 +72,54 @@ namespace Negocio
             }
         }
 
+        public List<Disco> listarFaltantes()
+        {
+            List<Disco> lista = new List<Disco>();
+            AccesoDatos datos = new AccesoDatos();
+
+            //Desarrollo
+            try
+            {
+                datos.setearConsulta("Select D.Id, Titulo, Artista, CantidadCanciones, E.Descripcion Genero, T.Descripcion Edicion, D.IdEstilo, D.IdTipoEdicion, D.EnStock from DISCOS D, ESTILOS E, TIPOSEDICION T where D.EnStock = 0 and D.IdEstilo = E.Id and D.IdTipoEdicion = T.Id");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Disco aux = new Disco();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Titulo = (string)datos.Lector["Titulo"];
+                    aux.Artista = new Artista();
+
+                    if (!(datos.Lector["Artista"] is DBNull))
+                        aux.Artista.Nombre = (string)datos.Lector["Artista"];
+
+                    aux.Artista.Nombre = (string)datos.Lector["Artista"];
+                    aux.cantidadCanciones = (int)datos.Lector["CantidadCanciones"];
+
+                    aux.Genero = new Estilo();
+                    aux.Genero.Id = (int)datos.Lector["IdEstilo"];
+                    aux.Genero.Descripcion = (string)datos.Lector["Genero"];
+                    aux.Tipo = new Edicion();
+                    aux.Tipo.Id = (int)datos.Lector["IdTipoEdicion"];
+                    aux.Tipo.Descripcion = (string)datos.Lector["Edicion"];
+                    aux.EnStock = (bool)datos.Lector["EnStock"];
+
+                    lista.Add(aux);
+                }
+
+                datos.Lector.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void agregarDisco(Disco nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -121,7 +169,30 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        
+        public void modificarDiscoFaltante(Disco stockeado)
+        {
+            AccesoDatos datos = new AccesoDatos(); 
+            
+            try
+            {
+                //Terminar esto para que modifique el EnStock en DB
+                datos.setearConsulta("update DISCOS set EnStock = 1 where Id = @id");
+                datos.setearParametro("@EnStock", stockeado.EnStock);
+                datos.setearParametro("@id", stockeado.Id);
 
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        
         public List<Disco> filtrar(string campo, string criterio, string filtro)
         {
             List<Disco> lista = new List<Disco>();
@@ -207,6 +278,53 @@ namespace Negocio
                     if (!(datos.Lector["UrlImagenTapa"] is DBNull))
                         aux.UrlImagenTapa = (string)datos.Lector["UrlImagenTapa"];
 
+                    aux.Genero = new Estilo();
+                    aux.Genero.Id = (int)datos.Lector["IdEstilo"];
+                    aux.Genero.Descripcion = (string)datos.Lector["Genero"];
+                    aux.Tipo = new Edicion();
+                    aux.Tipo.Id = (int)datos.Lector["IdTipoEdicion"];
+                    aux.Tipo.Descripcion = (string)datos.Lector["Edicion"];
+
+                    lista.Add(aux);
+                }
+                
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<Disco> filtrarFaltante()
+        {
+            List<Disco> lista = new List<Disco>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "Select D.Id, Titulo, Artista, CantidadCanciones, E.Descripcion Genero, T.Descripcion Edicion from DISCOS D, ESTILOS E, TIPOSEDICION T where D.EnStock = 0 and D.IdEstilo = E.Id and D.IdTipoEdicion = T.Id";
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Disco aux = new Disco();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Titulo = (string)datos.Lector["Titulo"];
+                    aux.Artista = new Artista();
+
+                    if (!(datos.Lector["Artista"] is DBNull))
+                        aux.Artista.Nombre = (string)datos.Lector["Artista"];
+
+                    aux.Artista.Nombre = (string)datos.Lector["Artista"];
+                    aux.cantidadCanciones = (int)datos.Lector["CantidadCanciones"];
+                    
                     aux.Genero = new Estilo();
                     aux.Genero.Id = (int)datos.Lector["IdEstilo"];
                     aux.Genero.Descripcion = (string)datos.Lector["Genero"];

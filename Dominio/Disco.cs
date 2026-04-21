@@ -9,6 +9,11 @@ namespace Dominio
 {
     public class Disco
     {
+        public Disco()
+        {
+            EnStock = true;
+        }
+
         public int Id { get; set; }
 
         [DisplayName("Título")]
@@ -25,5 +30,7 @@ namespace Dominio
         public Estilo Genero { get; set; }
 
         public Edicion Tipo { get; set; }
+
+        public bool EnStock { get; set; }
     }
 }
