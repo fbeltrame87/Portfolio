@@ -26,6 +26,7 @@ namespace Gestor_de_Comercio_App
             cargar();
         }
 
+        //Método privado para cargar o recargar la grilla
         private void cargar()
         {
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
@@ -64,6 +65,13 @@ namespace Gestor_de_Comercio_App
         {
             dgvGestorComercio.Columns["ImagenUrl"].Visible = false;
             dgvGestorComercio.Columns["Id"].Visible = false;
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            FormNuevoArticulo nuevo = new FormNuevoArticulo();
+            nuevo.ShowDialog();
+            cargar();
         }
     }
 }

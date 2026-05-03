@@ -31,13 +31,38 @@ namespace CapaNegocio
                     aux.marcaArticulo.Descripcion = (string)datos.Lector["Marca"];
                     aux.categoriaArticulo = new Categoria();
                     aux.categoriaArticulo.Descripcion = (string)datos.Lector["Categoria"];
-                    aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+
+                    if(!(datos.Lector["ImagenUrl"] is DBNull))
+                        aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+
                     aux.Precio = (decimal)datos.Lector["Precio"];
 
                     lista.Add(aux);
                 }
 
                 return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void agregar(Articulo nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("insert into ARTICULOS(Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) values('" + nuevo.Codigo + "', '" + nuevo.Nombre + "', '" + nuevo.Descripcion + "', @idMarca, @idCategoria, '" + nuevo.ImagenUrl + "', " + nuevo.Precio + ")");
+                datos.setearParametro("@idCategoria",  nuevo.categoriaArticulo.Id);
+                datos.setearParametro("@idMarca", nuevo.marcaArticulo.Id);
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {

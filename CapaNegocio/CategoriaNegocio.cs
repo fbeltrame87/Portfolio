@@ -8,7 +8,7 @@ using CapaDatos;
 
 namespace CapaNegocio
 {
-    class CategoriaNegocio
+    public class CategoriaNegocio
     {
         public List<Categoria> listar()
         {
