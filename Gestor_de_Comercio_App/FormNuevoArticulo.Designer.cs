@@ -184,6 +184,7 @@
             this.btnImagen.TabIndex = 15;
             this.btnImagen.Text = "+ img";
             this.btnImagen.UseVisualStyleBackColor = true;
+            this.btnImagen.Click += new System.EventHandler(this.btnImagen_Click);
             // 
             // btnAceptar
             // 
