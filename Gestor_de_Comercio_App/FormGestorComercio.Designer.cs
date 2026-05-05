@@ -132,7 +132,7 @@
             // lblFiltroAvanzado
             // 
             this.lblFiltroAvanzado.AutoSize = true;
-            this.lblFiltroAvanzado.Location = new System.Drawing.Point(467, 421);
+            this.lblFiltroAvanzado.Location = new System.Drawing.Point(464, 383);
             this.lblFiltroAvanzado.Name = "lblFiltroAvanzado";
             this.lblFiltroAvanzado.Size = new System.Drawing.Size(95, 13);
             this.lblFiltroAvanzado.TabIndex = 11;
@@ -141,7 +141,7 @@
             // lblCampo
             // 
             this.lblCampo.AutoSize = true;
-            this.lblCampo.Location = new System.Drawing.Point(12, 421);
+            this.lblCampo.Location = new System.Drawing.Point(9, 383);
             this.lblCampo.Name = "lblCampo";
             this.lblCampo.Size = new System.Drawing.Size(55, 13);
             this.lblCampo.TabIndex = 13;
@@ -150,7 +150,7 @@
             // lblCriterio
             // 
             this.lblCriterio.AutoSize = true;
-            this.lblCriterio.Location = new System.Drawing.Point(224, 421);
+            this.lblCriterio.Location = new System.Drawing.Point(221, 383);
             this.lblCriterio.Name = "lblCriterio";
             this.lblCriterio.Size = new System.Drawing.Size(54, 13);
             this.lblCriterio.TabIndex = 14;
@@ -158,7 +158,7 @@
             // 
             // txtBoxFiltroAvanzado
             // 
-            this.txtBoxFiltroAvanzado.Location = new System.Drawing.Point(568, 418);
+            this.txtBoxFiltroAvanzado.Location = new System.Drawing.Point(565, 380);
             this.txtBoxFiltroAvanzado.Name = "txtBoxFiltroAvanzado";
             this.txtBoxFiltroAvanzado.Size = new System.Drawing.Size(145, 20);
             this.txtBoxFiltroAvanzado.TabIndex = 15;
@@ -167,7 +167,7 @@
             // 
             this.cboBoxCampo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBoxCampo.FormattingEnabled = true;
-            this.cboBoxCampo.Location = new System.Drawing.Point(73, 417);
+            this.cboBoxCampo.Location = new System.Drawing.Point(70, 379);
             this.cboBoxCampo.Name = "cboBoxCampo";
             this.cboBoxCampo.Size = new System.Drawing.Size(145, 21);
             this.cboBoxCampo.TabIndex = 16;
@@ -177,7 +177,7 @@
             // 
             this.cboBoxCriterio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBoxCriterio.FormattingEnabled = true;
-            this.cboBoxCriterio.Location = new System.Drawing.Point(284, 417);
+            this.cboBoxCriterio.Location = new System.Drawing.Point(281, 379);
             this.cboBoxCriterio.Name = "cboBoxCriterio";
             this.cboBoxCriterio.Size = new System.Drawing.Size(145, 21);
             this.cboBoxCriterio.TabIndex = 17;
@@ -199,7 +199,7 @@
             // 
             this.lblSeparador.AutoSize = true;
             this.lblSeparador.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.lblSeparador.Location = new System.Drawing.Point(435, 421);
+            this.lblSeparador.Location = new System.Drawing.Point(432, 383);
             this.lblSeparador.Name = "lblSeparador";
             this.lblSeparador.Size = new System.Drawing.Size(31, 13);
             this.lblSeparador.TabIndex = 18;
@@ -209,7 +209,7 @@
             // btnBuscar
             // 
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnBuscar.Location = new System.Drawing.Point(719, 415);
+            this.btnBuscar.Location = new System.Drawing.Point(716, 377);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 19;
@@ -222,7 +222,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 410);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.lblSeparador);
             this.Controls.Add(this.cboBoxCriterio);

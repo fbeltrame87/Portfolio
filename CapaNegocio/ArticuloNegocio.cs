@@ -67,7 +67,6 @@ namespace CapaNegocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -202,8 +201,6 @@ namespace CapaNegocio
                             break;
                     }
                 }
-
-                
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
