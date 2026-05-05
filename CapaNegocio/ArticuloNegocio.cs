@@ -130,64 +130,80 @@ namespace CapaNegocio
 
             try
             {
-                string consulta = "select A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion Marca, C.Descripcion Categoria, ImagenUrl, Precio, A.IdMarca, A.IdCategoria from ARTICULOS A, MARCAS M, CATEGORIAS C where IdMarca = M.Id and IdCategoria = C.Id and ";
+                string consulta = "select A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion Marca, C.Descripcion Categoria, ImagenUrl, Precio, A.IdMarca, A.IdCategoria from ARTICULOS A, MARCAS M, CATEGORIAS C where IdMarca = M.Id and IdCategoria = C.Id";
 
-                switch (campo)
+                if (!(string.IsNullOrEmpty(filtro)))
                 {
-                    case "Precio":
-                        switch (criterio)
-                        {
-                            case "Menor a...":
-                                consulta += "Precio < " + filtro;
-                                break;
-                            case "Mayor a...":
-                                consulta += "Precio > " + filtro;
-                                break;
-                            case "Igual a...":
-                                consulta += "Precio = " + filtro;
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
+                    consulta += " and ";
 
-                    case "Categoria":
-                        switch (criterio)
-                        {
-                            case "Comienza con...":
-                                consulta += "C.Descripcion like '" + filtro + "%'";
-                                break;
-                            case "Termina con...":
-                                consulta += "C.Descripcion like '%" + filtro + "'";
-                                break;
-                            case "Contiene...":
-                                consulta += "C.Descripcion like '%" + filtro + "%'";
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
+                    switch (campo)
+                    {
+                        case "Precio":
+                            switch (criterio)
+                            {
+                                case "Menor a":
+                                    consulta += "Precio < @precio";
+                                    datos.setearParametro("@precio", filtro);
+                                    break;
+                                case "Mayor a":
+                                    consulta += "Precio > @precio";
+                                    datos.setearParametro("@precio", filtro);
+                                    break;
+                                case "Igual a":
+                                    consulta += "Precio = @filtro";
+                                    datos.setearParametro("@precio", filtro);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
 
-                    case "Marca":
-                        switch (criterio)
-                        {
-                            case "Comienza con":
-                                consulta += "M.Descripcion like '" + filtro + "%'";
-                                break;
-                            case "Termina con":
-                                consulta += "M.Descripcion like '%" + filtro + "'";
-                                break;
-                            case "Contiene":
-                                consulta += "M.Descripcion like '%" + filtro + "%'";
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
+                        case "Categoria":
+                            switch (criterio)
+                            {
+                                case "Comienza con":
+                                    consulta += "C.Descripcion like @filtro";
+                                    datos.setearParametro("@filtro", filtro + "%");
+                                    break;
+                                case "Termina con":
+                                    consulta += "C.Descripcion like @filtro";
+                                    datos.setearParametro("@filtro", "%" + filtro);
+                                    break;
+                                case "Contiene":
+                                    consulta += "C.Descripcion like @filtro";
+                                    datos.setearParametro("@filtro", "%" + filtro + "%");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
 
-                    default:
-                        break;
+                        case "Marca":
+                            switch (criterio)
+                            {
+                                case "Comienza con":
+                                    consulta += "M.Descripcion like @filtro";
+                                    datos.setearParametro("@filtro", filtro + "%");
+                                    break;
+                                case "Termina con":
+                                    consulta += "M.Descripcion like @filtro";
+                                    datos.setearParametro("@filtro", "%" + "%" + filtro);
+                                    break;
+                                case "Contiene":
+                                    consulta += "M.Descripcion like @filtro";
+                                    datos.setearParametro("@filtro", "%" + filtro + "%");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
                 }
+
+                
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();

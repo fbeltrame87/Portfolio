@@ -46,6 +46,7 @@
             this.btnImagen = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.lblObligatorio = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxNuevaImagen)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,18 +55,18 @@
             this.lblCodigo.AutoSize = true;
             this.lblCodigo.Location = new System.Drawing.Point(12, 29);
             this.lblCodigo.Name = "lblCodigo";
-            this.lblCodigo.Size = new System.Drawing.Size(40, 13);
+            this.lblCodigo.Size = new System.Drawing.Size(44, 13);
             this.lblCodigo.TabIndex = 0;
-            this.lblCodigo.Text = "Código";
+            this.lblCodigo.Text = "Código*";
             // 
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.Location = new System.Drawing.Point(12, 56);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(44, 13);
+            this.lblNombre.Size = new System.Drawing.Size(48, 13);
             this.lblNombre.TabIndex = 1;
-            this.lblNombre.Text = "Nombre";
+            this.lblNombre.Text = "Nombre*";
             // 
             // lblDescripcion
             // 
@@ -90,9 +91,9 @@
             this.lblPrecio.AutoSize = true;
             this.lblPrecio.Location = new System.Drawing.Point(12, 137);
             this.lblPrecio.Name = "lblPrecio";
-            this.lblPrecio.Size = new System.Drawing.Size(37, 13);
+            this.lblPrecio.Size = new System.Drawing.Size(41, 13);
             this.lblPrecio.TabIndex = 4;
-            this.lblPrecio.Text = "Precio";
+            this.lblPrecio.Text = "Precio*";
             // 
             // lblCategoria
             // 
@@ -188,7 +189,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(73, 222);
+            this.btnAceptar.Location = new System.Drawing.Point(73, 229);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 7;
@@ -198,7 +199,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(154, 222);
+            this.btnCancelar.Location = new System.Drawing.Point(154, 229);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 8;
@@ -206,12 +207,24 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // lblObligatorio
+            // 
+            this.lblObligatorio.AutoSize = true;
+            this.lblObligatorio.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.lblObligatorio.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblObligatorio.Location = new System.Drawing.Point(71, 213);
+            this.lblObligatorio.Name = "lblObligatorio";
+            this.lblObligatorio.Size = new System.Drawing.Size(106, 13);
+            this.lblObligatorio.TabIndex = 16;
+            this.lblObligatorio.Text = "(*) Campo Obligatorio";
+            // 
             // FormNuevoArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(444, 257);
+            this.Controls.Add(this.lblObligatorio);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.btnImagen);
@@ -260,5 +273,6 @@
         private System.Windows.Forms.Button btnImagen;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Label lblObligatorio;
     }
 }

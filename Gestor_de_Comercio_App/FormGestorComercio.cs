@@ -56,24 +56,7 @@ namespace Gestor_de_Comercio_App
             }
         }
 
-        private void cargarImagen(string imagen)
-        {
-            try
-            {
-                pBoxImagenArticulo.Load(imagen);
-            }
-            catch (Exception ex)
-            {
-                pBoxImagenArticulo.Load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTFlhSWwrzGBZnqDlW7uLEEJWBhFc8sW_Ruw&s");
-            }
-        }
-
-        private void ocultarColumnas()
-        {
-            dgvGestorComercio.Columns["ImagenUrl"].Visible = false;
-            dgvGestorComercio.Columns["Id"].Visible = false;
-        }
-
+        //Botones
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             FormNuevoArticulo nuevo = new FormNuevoArticulo();
@@ -83,8 +66,19 @@ namespace Gestor_de_Comercio_App
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Articulo seleccionado = new Articulo();
-            seleccionado = (Articulo)dgvGestorComercio.CurrentRow.DataBoundItem;
+            if (dgvGestorComercio.CurrentRow == null)
+            {
+                MessageBox.Show("Debes seleccionar un artículo de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Articulo seleccionado = (Articulo)dgvGestorComercio.CurrentRow.DataBoundItem;
+
+            if (seleccionado == null)
+            {
+                MessageBox.Show("No se pudo recuperar el artículo seleccionado.");
+                return;
+            }
 
             FormNuevoArticulo modificar = new FormNuevoArticulo(seleccionado);
             modificar.ShowDialog();
@@ -94,7 +88,20 @@ namespace Gestor_de_Comercio_App
         private void btnEliminarExistencia_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
-            Articulo seleccionado;
+
+            if (dgvGestorComercio.CurrentRow == null)
+            {
+                MessageBox.Show("Debes seleccionar un artículo de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Articulo seleccionado = (Articulo)dgvGestorComercio.CurrentRow.DataBoundItem;
+
+            if (seleccionado == null)
+            {
+                MessageBox.Show("No se pudo recuperar el artículo seleccionado.");
+                return;
+            }
 
             try
             {
@@ -114,6 +121,27 @@ namespace Gestor_de_Comercio_App
             }
         }
 
+        private void btnFiltroAvanzado_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            try
+            {
+                if (validarFiltro())
+                    return;
+
+                string campo = cboBoxCampo.SelectedItem.ToString();
+                string criterio = cboBoxCriterio.SelectedItem.ToString();
+                string filtro = txtBoxFiltroAvanzado.Text;
+                dgvGestorComercio.DataSource = negocio.filtrar(campo, criterio, filtro);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        //Métodos manipulación de texto filtrado, campo y criterio
         private void txtBoxFiltroRapido_TextChanged(object sender, EventArgs e)
         {
             List<Articulo> listaFiltrada;
@@ -136,34 +164,73 @@ namespace Gestor_de_Comercio_App
             if(opcion == "Precio")
             {
                 cboBoxCriterio.Items.Clear();
-                cboBoxCriterio.Items.Add("Menor a...");
-                cboBoxCriterio.Items.Add("Igual a...");
-                cboBoxCriterio.Items.Add("Mayor a...");
+                cboBoxCriterio.Items.Add("Menor a");
+                cboBoxCriterio.Items.Add("Igual a");
+                cboBoxCriterio.Items.Add("Mayor a");
             }
             else
             {
                 cboBoxCriterio.Items.Clear();
-                cboBoxCriterio.Items.Add("Comienza con...");
-                cboBoxCriterio.Items.Add("Termina con...");
-                cboBoxCriterio.Items.Add("Contiene...");
+                cboBoxCriterio.Items.Add("Comienza con");
+                cboBoxCriterio.Items.Add("Termina con");
+                cboBoxCriterio.Items.Add("Contiene");
             }
         }
 
-        private void btnFiltroAvanzado_Click(object sender, EventArgs e)
+        //Métodos para posible clase Helper
+        private void cargarImagen(string imagen)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-
             try
             {
-                string campo = cboBoxCampo.SelectedItem.ToString();
-                string criterio = cboBoxCriterio.SelectedItem.ToString();
-                string filtro = txtBoxFiltroAvanzado.Text;
-                dgvGestorComercio.DataSource = negocio.filtrar(campo, criterio, filtro);
+                pBoxImagenArticulo.Load(imagen);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                pBoxImagenArticulo.Load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTFlhSWwrzGBZnqDlW7uLEEJWBhFc8sW_Ruw&s");
             }
+        }
+
+        private void ocultarColumnas()
+        {
+            dgvGestorComercio.Columns["ImagenUrl"].Visible = false;
+            dgvGestorComercio.Columns["Id"].Visible = false;
+        }
+
+        //Métodos de validación/clase Helper
+        private bool validarFiltro()
+        {
+            if (cboBoxCampo.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor, antes seleccione el campo para filtrar.");
+                return true;
+            }
+
+            if (cboBoxCriterio.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor, antes seleccione el criterio para filtrar.");
+                return true;
+            }
+
+            if (cboBoxCampo.SelectedItem.ToString() == "Precio")
+            {
+                if (!(soloNumeros(txtBoxFiltroAvanzado.Text)))
+                {
+                    MessageBox.Show("Ingrese solo números como Precio, por favor.");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool soloNumeros(string cadena)
+        {
+            foreach (char caracter in cadena)
+            {
+                if (!(char.IsNumber(caracter)))
+                    return false;
+            }
+            return true;
         }
     }
 }
