@@ -90,10 +90,22 @@ namespace Discos_App
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            if (dgvDiscos.CurrentRow == null)
+            {
+                MessageBox.Show("Debes seleccionar un disco de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Disco seleccionado = (Disco)dgvDiscos.CurrentRow.DataBoundItem; //Disco seleccionado en la línea de grilla
+
+            if (seleccionado == null)
+            {
+                MessageBox.Show("No se pudo recuperar el disco seleccionado.");
+                return;
+            }
+
             try
             {
-                Disco seleccionado;
-                seleccionado = (Disco)dgvDiscos.CurrentRow.DataBoundItem; //Disco seleccionado en la línea de grilla
                 Form_AltaDisco modificar = new Form_AltaDisco(seleccionado);
                 modificar.ShowDialog();
                 cargar();
@@ -117,7 +129,21 @@ namespace Discos_App
         private void eliminar(bool logico = false)
         {
             DiscoNegocio negocio = new DiscoNegocio();
-            Disco seleccionado;
+
+            if (dgvDiscos.CurrentRow == null)
+            {
+                MessageBox.Show("Debes seleccionar un disco de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Disco seleccionado = (Disco)dgvDiscos.CurrentRow.DataBoundItem;
+
+            if (seleccionado == null)
+            {
+                MessageBox.Show("No se pudo recuperar el disco seleccionado.");
+                return;
+            }
+
             try
             {
                 DialogResult respuesta = MessageBox.Show("¿De verdad queres quitarlo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);

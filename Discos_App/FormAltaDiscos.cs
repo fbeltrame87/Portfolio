@@ -336,7 +336,9 @@ namespace Discos_App
 
                 //Guardo imagen si la levantó localmente
                 if(archivo != null && !(txtBoxUrlImagen.Text.Contains("http")))
+                {
                     File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+                }   
 
                 Close();
             }
@@ -362,13 +364,14 @@ namespace Discos_App
             {
                 pBoxDisco.Load("https://mynoota.com/_next/image?url=%2F_static%2Fimages%2F__default.png&w=640&q=75");
             }
-
         }
 
         private void btnAgregarImagen_Click(object sender, EventArgs e)
         {
             archivo = new OpenFileDialog();
             archivo.Filter = "jpg|*.jpg|png|*.png";
+            string imagen = "";
+
             if(archivo.ShowDialog() == DialogResult.OK)
             {
                 //carga de imagen en form
@@ -377,6 +380,11 @@ namespace Discos_App
 
                 //guardo la imagen en carpeta hecha para la app
                 //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+            }
+            else
+            {
+                txtBoxUrlImagen.Text = imagen;
+                cargarImagen(imagen);
             }
         }
     }
