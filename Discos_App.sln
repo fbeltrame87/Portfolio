@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.36324.19
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discos_App", "Discos_App\Discos_App.csproj", "{115129B6-4DAF-4BBF-93B0-6D7A69752507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{96A1AB6A-199E-48DE-9A2C-AEB24A7FC68C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "NegocioNuevo\Negocio.csproj", "{E6430165-BB2E-463D-9422-D7BB8A72FA7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{115129B6-4DAF-4BBF-93B0-6D7A69752507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{115129B6-4DAF-4BBF-93B0-6D7A69752507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{115129B6-4DAF-4BBF-93B0-6D7A69752507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{115129B6-4DAF-4BBF-93B0-6D7A69752507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96A1AB6A-199E-48DE-9A2C-AEB24A7FC68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A1AB6A-199E-48DE-9A2C-AEB24A7FC68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A1AB6A-199E-48DE-9A2C-AEB24A7FC68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A1AB6A-199E-48DE-9A2C-AEB24A7FC68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6430165-BB2E-463D-9422-D7BB8A72FA7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6430165-BB2E-463D-9422-D7BB8A72FA7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6430165-BB2E-463D-9422-D7BB8A72FA7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6430165-BB2E-463D-9422-D7BB8A72FA7F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DBEA227-D7FA-4FE0-8402-18BD123A4F86}
+	EndGlobalSection
+EndGlobal
