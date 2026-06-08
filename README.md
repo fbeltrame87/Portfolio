@@ -1,4 +1,4 @@
-- GESTORCOMERCIO
+- Gestor_de_Comercio
 Commerce Management System
 A robust desktop application designed to streamline inventory control and product management.
 This project was developed as part of my professional training in the .NET ecosystem, focusing on clean architecture and relational database integration.
