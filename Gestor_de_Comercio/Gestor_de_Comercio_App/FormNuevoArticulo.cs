@@ -31,6 +31,18 @@ namespace Gestor_de_Comercio_App
             Text = "Modificar Articulo";
         }
 
+        public FormNuevoArticulo(Articulo articulo, bool soloLectura)
+        {
+            InitializeComponent();
+            this.articulo = articulo;
+
+            if (soloLectura)
+            {
+                Text = "Detalle del Articulo";
+                configurarModoSoloLectura();
+            }
+        }
+
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
@@ -38,6 +50,11 @@ namespace Gestor_de_Comercio_App
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            if (!validarCampos())
+            {
+                return;
+            }
+
             ArticuloNegocio negocio = new ArticuloNegocio();
 
             try
@@ -72,7 +89,7 @@ namespace Gestor_de_Comercio_App
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.ToString());
             }
         }
 
@@ -133,6 +150,43 @@ namespace Gestor_de_Comercio_App
              }
         }
 
+        private bool validarCampos()
+        {
+            // 1. Validar Código
+            if (string.IsNullOrWhiteSpace(txtBoxCodigo.Text))
+            {
+                MessageBox.Show("El campo 'Código' es obligatorio.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBoxCodigo.Focus(); // Lleva el cursor al campo vacío
+                return false;
+            }
+
+            // 2. Validar Nombre
+            if (string.IsNullOrWhiteSpace(txtBoxNombre.Text))
+            {
+                MessageBox.Show("El campo 'Nombre' es obligatorio.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBoxNombre.Focus();
+                return false;
+            }
+
+            // 3. Validar Precio
+            if (string.IsNullOrWhiteSpace(txtBoxPrecio.Text))
+            {
+                MessageBox.Show("El campo 'Precio' es obligatorio.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBoxPrecio.Focus();
+                return false;
+            }
+
+            // Usamos TryParse para verificar que realmente sea un número decimal válido
+            if (!decimal.TryParse(txtBoxPrecio.Text, out decimal precioResultado))
+            {
+                MessageBox.Show("Por favor, ingrese un formato de precio válido (ej: 1500 o 1500.50).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtBoxPrecio.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnImagen_Click(object sender, EventArgs e)
         {
             try
@@ -149,6 +203,24 @@ namespace Gestor_de_Comercio_App
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void configurarModoSoloLectura()
+        {
+            txtBoxCodigo.ReadOnly = true;
+            txtBoxNombre.ReadOnly = true;
+            txtBoxDescripcion.ReadOnly = true;
+            txtBoxPrecio.ReadOnly = true;
+
+            lblImagenUrl.Visible = false;
+            txtBoxImagenUrl.Visible = false;
+
+            cboBoxCategoria.Enabled = false;
+            cboBoxMarca.Enabled = false;
+            btnImagen.Visible = false;
+
+            btnAceptar.Visible = false;
+            btnCancelar.Text = "Cerrar";
         }
     }
 }

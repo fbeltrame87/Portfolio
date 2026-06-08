@@ -149,7 +149,7 @@ namespace CapaNegocio
                                     datos.setearParametro("@precio", filtro);
                                     break;
                                 case "Igual a":
-                                    consulta += "Precio = @filtro";
+                                    consulta += "Precio = @precio";
                                     datos.setearParametro("@precio", filtro);
                                     break;
                                 default:

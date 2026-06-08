@@ -14,7 +14,10 @@ namespace Gestor_de_Comercio_App
 {
     public partial class FormGestorComercio : Form
     {
+        private List<Articulo> listaCompleta;
         private List<Articulo> listaArticulo;
+        private int paginaActual = 1;      
+        private int registrosPorPagina = 12;
 
         public FormGestorComercio()
         {
@@ -23,7 +26,11 @@ namespace Gestor_de_Comercio_App
 
         private void FormGestorComercio_Load(object sender, EventArgs e)
         {
+            this.KeyPreview = true;
+
             cargar();
+            ocultarColumnas();
+            ocultarFiltroAvanzado(true);
             cboBoxCampo.Items.Add("Categoria");
             cboBoxCampo.Items.Add("Marca");
             cboBoxCampo.Items.Add("Precio");
@@ -35,7 +42,33 @@ namespace Gestor_de_Comercio_App
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
             try
             {
-                listaArticulo = articuloNegocio.listar();
+                listaCompleta = articuloNegocio.listar();
+                if(listaCompleta != null && listaCompleta.Count > registrosPorPagina)
+                {
+                    btnAnterior.Visible = true;
+                    btnSiguiente.Visible = true;
+                    lblPagActual.Visible = true;
+
+                    listaArticulo = listaCompleta
+                                .Skip((paginaActual - 1) * registrosPorPagina)
+                                .Take(registrosPorPagina)
+                                .ToList();
+
+                    btnAnterior.Enabled = (paginaActual > 1);
+
+                    int totalPaginas = (int)Math.Ceiling((double)listaCompleta.Count / registrosPorPagina);
+                    btnSiguiente.Enabled = (paginaActual < totalPaginas);
+                    lblPagActual.Text = $"Página {paginaActual} de {totalPaginas}";
+                }
+                else
+                {
+                    btnAnterior.Enabled = true;
+                    btnSiguiente.Enabled = true;
+                    lblPagActual.Visible = false;
+
+                    listaArticulo = listaCompleta;
+                }
+
                 dgvGestorComercio.DataSource = listaArticulo;
                 dgvGestorComercio.Columns["Precio"].DefaultCellStyle.Format = "0.00";
                 cargarImagen(listaArticulo[0].ImagenUrl);
@@ -121,7 +154,7 @@ namespace Gestor_de_Comercio_App
             }
         }
 
-        private void btnFiltroAvanzado_Click(object sender, EventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
 
@@ -194,6 +227,37 @@ namespace Gestor_de_Comercio_App
         {
             dgvGestorComercio.Columns["ImagenUrl"].Visible = false;
             dgvGestorComercio.Columns["Id"].Visible = false;
+            dgvGestorComercio.Columns["Codigo"].Visible = false;
+            dgvGestorComercio.Columns["Descripcion"].Visible = false;
+        }
+
+        private void ocultarFiltroAvanzado(bool activado)
+        {
+            if (activado)
+            {
+                lblLimpiar.Visible = false;
+                btnLimpiarFiltro.Visible = false;
+                lblCampo.Visible = false;
+                cboBoxCampo.Visible = false;
+                lblCriterio.Visible = false;
+                cboBoxCriterio.Visible = false;
+                lblSeparador.Visible = false;
+                lblFiltroAvanzado.Visible = false;
+                txtBoxFiltroAvanzado.Visible = false;
+            }
+            else
+            {
+                lblLimpiar.Visible = true;
+                btnLimpiarFiltro.Visible = true;
+                lblCampo.Visible = true;
+                cboBoxCampo.Visible = true;
+                lblCriterio.Visible = true;
+                cboBoxCriterio.Visible = true;
+                lblSeparador.Visible = true;
+                lblFiltroAvanzado.Visible = true;
+                txtBoxFiltroAvanzado.Visible = true;
+            }
+            
         }
 
         //Métodos de validación/clase Helper
@@ -213,9 +277,9 @@ namespace Gestor_de_Comercio_App
 
             if (cboBoxCampo.SelectedItem.ToString() == "Precio")
             {
-                if (!(soloNumeros(txtBoxFiltroAvanzado.Text)))
+                if (!(soloNumeros(txtBoxFiltroAvanzado.Text)) && decimal.Parse(txtBoxFiltroAvanzado.Text) < 0)
                 {
-                    MessageBox.Show("Ingrese solo números como Precio, por favor.");
+                    MessageBox.Show("Ingrese solo números, y que estos sean positivos, como Precio, por favor.");
                     return true;
                 }
             }
@@ -231,6 +295,70 @@ namespace Gestor_de_Comercio_App
                     return false;
             }
             return true;
+        }
+
+        private void btnVerDetalle_Click(object sender, EventArgs e)
+        {
+            if(dgvGestorComercio.CurrentRow != null)
+            {
+                Articulo seleccionado = (Articulo)dgvGestorComercio.CurrentRow.DataBoundItem;
+
+                if(seleccionado != null)
+                {
+                    FormNuevoArticulo formDetalleArticulo = new FormNuevoArticulo(seleccionado, true);
+                    formDetalleArticulo.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Primero seleccione un articulo, por favor.", "Atención");
+            }
+        }
+
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            paginaActual--;
+            cargar();
+        }
+
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            paginaActual++;
+            cargar();
+        }
+
+        private void btnIrAFiltroAvanzado_Click(object sender, EventArgs e)
+        {
+            ocultarFiltroAvanzado(false);
+        }
+
+        private void btnLimpiarFiltro_Click(object sender, EventArgs e)
+        {
+            txtBoxFiltroAvanzado.Text = "";
+            txtBoxFiltroRapido.Text = "";
+        }
+
+        private void FormGestorComercio_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back && !txtBoxFiltroAvanzado.Focused && !txtBoxFiltroRapido.Focused)
+            {
+                btnLimpiarFiltro_Click(sender, e);
+
+                // Damos aviso del uso de la tecla.
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtBoxFiltroAvanzado_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnBuscar_Click(sender, e);
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
         }
     }
 }
